@@ -1,4 +1,4 @@
-package io.github.ponnamkarthik.testexoplayer;
+package com.github.ponnamkarthik.testexoplayer;
 
 import org.junit.Test;
 

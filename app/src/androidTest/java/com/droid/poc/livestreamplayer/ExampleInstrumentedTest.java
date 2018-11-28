@@ -1,4 +1,4 @@
-package io.github.ponnamkarthik.testexoplayer;
+package com.droid.poc.livestreamplayer;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
