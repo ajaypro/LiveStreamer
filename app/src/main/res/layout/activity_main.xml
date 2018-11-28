@@ -1,16 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="io.github.ponnamkarthik.testexoplayer.MainActivity">
+    tools:context="com.droid.poc.livestreamplayer.PlayerActivity">
 
-    <com.google.android.exoplayer2.ui.PlayerView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/simple_player">
+    <com.google.android.exoplayer2.ui.PlayerView android:layout_width="match_parent"
+                                                 android:layout_height="match_parent"
+                                                 android:id="@+id/video_view">
 
     </com.google.android.exoplayer2.ui.PlayerView>
+
+    <ProgressBar
+        android:id="@+id/loading"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_gravity="center"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp" android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/video_view" app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/video_view" app:layout_constraintVertical_bias="0.498"/>
 
 </android.support.constraint.ConstraintLayout>
