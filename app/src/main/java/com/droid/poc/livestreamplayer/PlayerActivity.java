@@ -1,11 +1,15 @@
 package com.droid.poc.livestreamplayer;
 
 import android.annotation.SuppressLint;
+import android.media.MediaCodecInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.util.TimeUtils;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.exoplayer2.DefaultLoadControl;
@@ -26,6 +30,7 @@ import com.google.android.exoplayer2.trackselection.TrackSelectionArray;
 import com.google.android.exoplayer2.ui.PlayerView;
 import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 import com.google.android.exoplayer2.util.Util;
+import com.google.android.exoplayer2.video.VideoFrameReleaseTimeHelper;
 import com.google.android.exoplayer2.video.VideoListener;
 import com.google.android.gms.measurement.AppMeasurement;
 import com.google.firebase.analytics.FirebaseAnalytics;
@@ -45,6 +50,7 @@ public class PlayerActivity extends AppCompatActivity {
     private long mPlaybackPosition;
     private final static String TAG = "PlayerActivity";
     private ComponentListener mComponentListener;
+    private ProgressBar mProgressBar;
 
     PlayerView mPlayerView;
 
@@ -55,11 +61,14 @@ public class PlayerActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mProgressBar = findViewById(R.id.loading);
 
         mComponentListener = new ComponentListener();
         mPlayerView = findViewById(R.id.video_view);
 
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        mFirebaseAnalytics.setAnalyticsCollectionEnabled(true);
+
 
     }
 
@@ -68,11 +77,6 @@ public class PlayerActivity extends AppCompatActivity {
         super.onStart();
         if (Util.SDK_INT > 23) {
             initializePlayer();
-
-            Bundle params = new Bundle();
-            params.putInt("Initialized player", Player.STATE_READY);
-
-            FirebaseAnalytics.getInstance(this).logEvent(FirebaseAnalytics.Event.APP_OPEN, params);
         }
     }
 
@@ -237,6 +241,7 @@ public class PlayerActivity extends AppCompatActivity {
                     break;
                 case Player.STATE_READY:
                     stateString = "Player.STATE_READY     -";
+                    mProgressBar.setVisibility(View.GONE);
                     break;
                 case Player.STATE_ENDED:
                     stateString = "Player.STATE_ENDED     -";
@@ -248,13 +253,12 @@ public class PlayerActivity extends AppCompatActivity {
             Log.d(TAG, "changed state to " + stateString
                     + " playWhenReady: " + playWhenReady);
 
+            Bundle params = new Bundle();
+            params.putString("Player_State" , stateString);
+            params.putBoolean("Player_ready" , playWhenReady);
+            mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.APP_OPEN, params);
+
             Toast.makeText(PlayerActivity.this, "changed state" + stateString, Toast.LENGTH_SHORT).show();
-
-            /*Bundle params = new Bundle();
-            params.putString(stateString, Event.);
-
-            FirebaseAnalytics.getInstance(this).logEvent(FirebaseAnalytics.Event.APP_OPEN, params)*/;
-
 
             }
 
@@ -267,7 +271,6 @@ public class PlayerActivity extends AppCompatActivity {
                 float pixelWidthHeightRatio) {
 
 
-            Log.d(TAG, "Video size changed" + width + height);
 
         }
 
@@ -279,6 +282,12 @@ public class PlayerActivity extends AppCompatActivity {
         public void onRenderedFirstFrame() {
             Log.d(TAG, "First Frame detected");
             Toast.makeText(PlayerActivity.this, "First frame", Toast.LENGTH_SHORT).show();
+
+            if(mPlayWhenReady == true) {
+                Bundle params = new Bundle();
+                params.putString(FirebaseAnalytics.Param.TERM, "First Frame");
+                mFirebaseAnalytics.logEvent("Rendering_first_frame", params);
+            }
         }
 
         @Override
@@ -306,6 +315,11 @@ public class PlayerActivity extends AppCompatActivity {
         public void onPlayerError(ExoPlaybackException error) {
             super.onPlayerError(error);
             Toast.makeText(PlayerActivity.this, "Error occured :" + error , Toast.LENGTH_SHORT).show();
+
+            Bundle params = new Bundle();
+            params.putString(FirebaseAnalytics.Param.SOURCE, "Error Occured");
+            mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.LEVEL_END, params);
+
             releasePlayer();
         }
     }

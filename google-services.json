@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "685463466714",
+    "firebase_url": "https://livestreamer-8154f.firebaseio.com",
+    "project_id": "livestreamer-8154f",
+    "storage_bucket": "livestreamer-8154f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:685463466714:android:cd7ae73fdfea2cd4",
+        "android_client_info": {
+          "package_name": "com.droid.poc.livestream"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "685463466714-ovv4u955jgtl0qp1fsb1vik1a9ft2udp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.droid.poc.livestream",
+            "certificate_hash": "e8f9c5673ac95ccc76921c0e9a494a246a43f8cd"
+          }
+        },
+        {
+          "client_id": "685463466714-hsdeh6o5ver4u9f2nm6spqno93pal7ps.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAX3tXRblfp-it1k_kt7xY3_9jHXm44Ik0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "685463466714-hsdeh6o5ver4u9f2nm6spqno93pal7ps.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
